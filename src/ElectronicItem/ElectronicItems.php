@@ -4,35 +4,33 @@ namespace App\ElectronicItem;
 
 class ElectronicItems
 {
+    /**
+     * @param ElectronicItem[] $items
+     */
     public function __construct(private array $items)
     {
     }
 
     /**
-     * Returns the items depending on the sorting type requested
-     *
-     * @param $type
-     * @return array
+     * @return ElectronicItem[]
      */
-    public function getSortedItems($type): array
+    public function getSortedItems(): array
     {
-        $sorted = [];
-        foreach ($this->items as $item) {
-            $sorted[($item->price * 100)] = $item;
-        }
-        ksort($sorted, SORT_NUMERIC);
-        return $sorted;
+        $toSort = $this->items;
+
+        usort(
+            $toSort,
+            static fn(ElectronicItem $item1, ElectronicItem $item2) => $item1->getPrice() <=> $item2->getType()
+        );
+        return $toSort;
     }
 
-    public function getItemsByType($type): array
+    /**
+     * @param string $type
+     * @return ElectronicItem[]
+     */
+    public function getItemsByType(string $type): array
     {
-        if (in_array($type, ElectronicItem::$types)) {
-            $callback = function ($item) use ($type) {
-                return $item->type == $type;
-            };
-            return array_filter($this->items, $callback);
-        }
-
-        return [];
+        return array_filter($this->items, static fn(ElectronicItem $item) => $item->getType() === $type);
     }
 }
