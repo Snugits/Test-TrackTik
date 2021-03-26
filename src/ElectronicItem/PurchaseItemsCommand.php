@@ -21,6 +21,7 @@ class PurchaseItemsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        // Question 1
         $io = new SymfonyStyle($input, $output);
         $io->title('Buying Electronic Items regarding task.');
         $io->listing([
@@ -78,7 +79,19 @@ class PurchaseItemsCommand extends Command
         $io->section('Items Sorted by total price with extras');
         $io->table(['Price', 'Item Type'], $sortedItemsView);
 
-        $io->success(sprintf("The total sum: %01.2f", $cart->getTotalSum()));
+        $io->success(sprintf("The total sum: %01.2f", $cart->getTotalPrice()));
+
+        // Question 2
+
+        $io->title('Friend ask: how much the console and its controllers had cost?');
+
+        $consolesFromCart = $cart->getItemsByType(Type::CONSOLE());
+        $newCart = new ElectronicItems($consolesFromCart);
+
+        $io->success(sprintf(
+            "The total price of console with their controllers is: %01.2f",
+            $newCart->getTotalPrice()
+        ));
         return self::SUCCESS;
     }
 }

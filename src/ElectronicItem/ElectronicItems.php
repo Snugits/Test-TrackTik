@@ -48,7 +48,7 @@ final class ElectronicItems
         return array_filter($this->items, static fn(ElectronicItem $item) => $item->getType()->equals($type));
     }
 
-    public function getTotalSum(): float
+    public function getTotalPrice(): float
     {
         $sum = 0;
 
