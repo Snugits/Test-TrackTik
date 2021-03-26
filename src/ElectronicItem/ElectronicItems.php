@@ -17,13 +17,14 @@ class ElectronicItems
      * @param $type
      * @return array
      */
-    public function getSortedItems($type)
+    public function getSortedItems($type): array
     {
         $sorted = array();
         foreach ($this->items as $item) {
             $sorted[($item->price * 100)] = $item;
         }
-        return ksort($sorted, SORT_NUMERIC);
+        ksort($sorted, SORT_NUMERIC);
+        return $sorted;
     }
 
     /**
@@ -36,9 +37,9 @@ class ElectronicItems
             $callback = function ($item) use ($type) {
                 return $item->type == $type;
             };
-            $items = array_filter($this->items, $callback);
+            return array_filter($this->items, $callback);
         }
 
-        return false;
+        return [];
     }
 }
