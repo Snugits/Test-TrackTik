@@ -2,12 +2,11 @@
 
 namespace App\ElectronicItem;
 
-class Microwave implements ElectronicItem
+final class Microwave implements ElectronicItem
 {
     private const MAX_EXTRAS = 0;
-    private const TYPE = 'microwave';
 
-    public function __construct(private float $price)
+    public function __construct(private float $price, private int $quantity)
     {
     }
 
@@ -16,12 +15,22 @@ class Microwave implements ElectronicItem
         return self::MAX_EXTRAS;
     }
 
-    public function getType(): string
+    public function getType(): Type
     {
-        return self::TYPE;
+        return Type::MICROWAVE();
     }
 
     public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function addExtra(ElectronicItem $item): void
+    {
+        throw ElectronicItemException::limitExtras(self::MAX_EXTRAS, 0);
+    }
+
+    public function getTotalPriceWithExtras(): float
     {
         return $this->price;
     }
