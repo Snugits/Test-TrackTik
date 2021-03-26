@@ -4,11 +4,8 @@ namespace App\ElectronicItem;
 
 class ElectronicItems
 {
-    private $items = array();
-
-    public function __construct(array $items)
+    public function __construct(private array $items)
     {
-        $this->items = $items;
     }
 
     /**
@@ -19,7 +16,7 @@ class ElectronicItems
      */
     public function getSortedItems($type): array
     {
-        $sorted = array();
+        $sorted = [];
         foreach ($this->items as $item) {
             $sorted[($item->price * 100)] = $item;
         }
@@ -27,11 +24,7 @@ class ElectronicItems
         return $sorted;
     }
 
-    /**
-     * @param string $type
-     * @return array
-     */
-    public function getItemsByType($type)
+    public function getItemsByType($type): array
     {
         if (in_array($type, ElectronicItem::$types)) {
             $callback = function ($item) use ($type) {
