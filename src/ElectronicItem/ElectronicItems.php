@@ -45,7 +45,9 @@ final class ElectronicItems
      */
     public function getItemsByType(Type $type): array
     {
-        return array_filter($this->items, static fn(ElectronicItem $item) => $item->getType()->equals($type));
+        return array_values(
+            array_filter($this->items, static fn(ElectronicItem $item) => $item->getType()->equals($type))
+        );
     }
 
     public function getTotalPrice(): float
